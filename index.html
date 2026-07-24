@@ -139,7 +139,6 @@
     </div>
 
     <script>
-        // Cambiar el color del texto del estado según la opción elegida (Azul / Negro)
         function colorStatus(select) {
             if (select.value === '✓') {
                 select.className = 'w-full bg-white text-center font-bold text-xl text-blue-900 cursor-pointer focus:outline-none';
@@ -150,10 +149,16 @@
             }
         }
 
-        // Generación del archivo PDF oficial
+        // Función auxiliar para convertir símbolos Unicode a texto compatible con PDF
+        function cleanStatus(value) {
+            if (value === '✓') return 'OK';
+            if (value === '✕') return 'NO';
+            return value; // Retorna N/A u otro valor
+        }
+
         async function generatePDF() {
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'mm', 'a4'); // Formato vertical
+            const doc = new jsPDF('p', 'mm', 'a4');
 
             const inspector = document.getElementById('inspector').value;
             const fecha = document.getElementById('fecha').value;
@@ -196,25 +201,25 @@
                     [
                         '1',
                         'Confirme que el indicador de disponibilidad muestre el estado operativo.',
-                        document.getElementById('item1_estado').value,
+                        cleanStatus(document.getElementById('item1_estado').value),
                         document.getElementById('item1_obs').value || 'Sin observaciones'
                     ],
                     [
                         '2',
                         'Compruebe que los electrodos y la batería estén presentes, correctamente conectados y no caducados.',
-                        document.getElementById('item2_estado').value,
+                        cleanStatus(document.getElementById('item2_estado').value),
                         document.getElementById('item2_obs').value || 'Sin observaciones'
                     ],
                     [
                         '3',
                         'Verifique que la alarma del gabinete (si la hay) se active al abrirlo.',
-                        document.getElementById('item3_estado').value,
+                        cleanStatus(document.getElementById('item3_estado').value),
                         document.getElementById('item3_obs').value || 'Sin observaciones'
                     ],
                     [
                         '4',
                         'Asegúrese de que el DEA esté bien montado y claramente etiquetado.',
-                        document.getElementById('item4_estado').value,
+                        cleanStatus(document.getElementById('item4_estado').value),
                         document.getElementById('item4_obs').value || 'Sin observaciones'
                     ]
                 ],
@@ -223,14 +228,14 @@
                 columnStyles: {
                     0: { halign: 'center', width: 12 },
                     1: { width: 90 },
-                    2: { halign: 'center', fontStyle: 'bold', fontSize: 12, width: 25 },
+                    2: { halign: 'center', fontStyle: 'bold', fontSize: 10, width: 25 },
                     3: { width: 53 }
                 }
             });
 
             let finalY = doc.lastAutoTable.finalY + 8;
 
-            // Bloque de Notas explicativas en el PDF
+            // Bloque de Notas explicativas
             doc.setFontSize(7.5);
             doc.setFont("helvetica", "italic");
             doc.setTextColor(80, 80, 80);
