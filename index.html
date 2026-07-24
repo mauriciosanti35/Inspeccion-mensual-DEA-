@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Inspección Mensual - DEA ACCESS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <style>
+        .font-signature { font-family: 'Dancing Script', cursive; }
+    </style>
+</head>
+<body class="bg-gray-100 py-4 px-2">
+
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow-lg border border-gray-300">
+        <!-- Encabezado con Logo -->
+        <div class="flex justify-between items-center border-b-2 border-black pb-4 mb-6">
+            <div class="w-2/3">
+                <h1 class="text-lg font-bold uppercase text-gray-800 tracking-tight">INSPECCIÓN MENSUAL DE DESFIBRILADOR (DEA)</h1>
+                <p class="text-xs font-semibold text-blue-900 uppercase">SISTEMA DE SEGURIDAD OPERACIONAL - ACCESS</p>
+            </div>
+            <div class="w-1/3 flex justify-end items-center">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF48GAfBiNyZh2fPJF-l8q0Dk1Dqn5tQ2r4g&s" alt="Logo ACCESS" class="h-16 object-contain">
+            </div>
+        </div>
+
+        <form id="auditForm" class="space-y-4">
+            <!-- Datos Generales -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex flex-col">
+                    <label class="text-xs font-bold uppercase text-gray-500">Inspección realizada por / Responsable:</label>
+                    <select id="inspector" onchange="updateSignatureDisplay()" class="border-b-2 border-blue-900 p-1 bg-transparent font-bold text-blue-900 focus:outline-none">
+                        <option value="Mauricio Santibañez">Mauricio Santibañez</option>
+                        <option value="Karen Cañete">Karen Cañete</option>
+                        <option value="Vinicio Lopez">Vinicio López</option>
+                        <option value="Alejandro Garay">Alejandro Garay</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-xs font-bold uppercase text-gray-500">Fecha de inspección:</label>
+                    <input type="date" id="fecha" value="2026-06-26" class="border-b-2 border-blue-900 p-1 bg-transparent font-bold focus:outline-none">
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-xs font-bold uppercase text-gray-500">Área / Ubicación:</label>
+                    <select id="instalacion" class="border-b-2 border-blue-900 p-1 bg-transparent font-bold text-blue-900 focus:outline-none">
+                        <option value="Zona de Torniquetes">Zona de Torniquetes</option>
+                        <option value="Bodega Principal">Bodega Principal</option>
+                        <option value="Oficinas Administrativas">Oficinas Administrativas</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tabla de Inspección del DEA -->
+            <div class="overflow-x-auto text-[11px] pt-4">
+                <table class="w-full border-collapse border-2 border-black">
+                    <thead class="bg-gray-800 text-white uppercase text-center">
+                        <tr>
+                            <th class="border border-black p-2 w-12">N°</th>
+                            <th class="border border-black p-2">DESCRIPCIÓN DE LA TAREA</th>
+                            <th class="border border-black p-2 w-28">ESTADO</th>
+                            <th class="border border-black p-2 w-1/3">OBSERVACIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-800">
+                        <tr class="bg-gray-200 font-bold uppercase text-left">
+                            <td colspan="4" class="border border-black p-2 tracking-wider">Puntos de Verificación de Equipamiento DEA</td>
+                        </tr>
+
+                        <!-- Tarea 1 -->
+                        <tr>
+                            <td class="border border-black p-2 text-center font-bold">1</td>
+                            <td class="border border-black p-2 font-semibold">Confirme que el indicador de disponibilidad muestre el estado operativo.</td>
+                            <td class="border border-black p-1 text-center">
+                                <select id="item1_estado" class="w-full bg-white text-center font-bold text-green-700 cursor-pointer">
+                                    <option value="OK" selected>OK</option>
+                                    <option value="NO OK">NO OK</option>
+                                    <option value="N/A">N/A</option>
+                                </select>
+                            </td>
+                            <td class="border border-black p-1"><input type="text" id="item1_obs" class="w-full outline-none px-1" placeholder="Observaciones..."></td>
+                        </tr>
+
+                        <!-- Tarea 2 -->
+                        <tr>
+                            <td class="border border-black p-2 text-center font-bold">2</td>
+                            <td class="border border-black p-2 font-semibold">Compruebe que los electrodos y la batería estén presentes, correctamente conectados y no caducados.</td>
+                            <td class="border border-black p-1 text-center">
+                                <select id="item2_estado" class="w-full bg-white text-center font-bold text-green-700 cursor-pointer">
+                                    <option value="OK" selected>OK</option>
+                                    <option value="NO OK">NO OK</option>
+                                    <option value="N/A">N/A</option>
+                                </select>
+                            </td>
+                            <td class="border border-black p-1"><input type="text" id="item2_obs" class="w-full outline-none px-1" placeholder="Observaciones / Fecha caducidad..."></td>
+                        </tr>
+
+                        <!-- Tarea 3 -->
+                        <tr>
+                            <td class="border border-black p-2 text-center font-bold">3</td>
+                            <td class="border border-black p-2 font-semibold">Verifique que la alarma del gabinete (si la hay) se active al abrirlo.</td>
+                            <td class="border border-black p-1 text-center">
+                                <select id="item3_estado" class="w-full bg-white text-center font-bold text-green-700 cursor-pointer">
+                                    <option value="OK" selected>OK</option>
+                                    <option value="NO OK">NO OK</option>
+                                    <option value="N/A">N/A</option>
+                                </select>
+                            </td>
+                            <td class="border border-black p-1"><input type="text" id="item3_obs" class="w-full outline-none px-1" placeholder="Observaciones..."></td>
+                        </tr>
+
+                        <!-- Tarea 4 -->
+                        <tr>
+                            <td class="border border-black p-2 text-center font-bold">4</td>
+                            <td class="border border-black p-2 font-semibold">Asegúrese de que el DEA esté bien montado y claramente etiquetado.</td>
+                            <td class="border border-black p-1 text-center">
+                                <select id="item4_estado" class="w-full bg-white text-center font-bold text-green-700 cursor-pointer">
+                                    <option value="OK" selected>OK</option>
+                                    <option value="NO OK">NO OK</option>
+                                    <option value="N/A">N/A</option>
+                                </select>
+                            </td>
+                            <td class="border border-black p-1"><input type="text" id="item4_obs" class="w-full outline-none px-1" placeholder="Observaciones..."></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Notas de Recordatorio -->
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded text-xs text-yellow-800 space-y-1">
+                <p><strong>Nota 1:</strong> Documente la inspección en una etiqueta de inspección colocada en cada gabinete/estuche del DEA. Registre las fechas de caducidad de los electrodos y las baterías. Documente cualquier problema.</p>
+                <p><strong>Nota 2:</strong> Tomar fotos a cada etiqueta de inspección para subir como evidencia a la plataforma <strong>Protectadvisr</strong>.</p>
+            </div>
+
+            <!-- Cuadro de Firma -->
+            <div class="mt-6 p-4 w-full md:w-80 border-2 border-black bg-gray-50">
+                <label class="block text-[10px] font-bold mb-1 uppercase text-gray-500">Firma Electrónica:</label>
+                <div id="signature-display" class="font-signature text-3xl text-blue-900 border-b border-gray-300 pb-2 mb-1">
+                    Mauricio Santibañez
+                </div>
+                <p class="text-[9px] text-gray-600 font-bold italic uppercase tracking-tighter">Firmado electrónicamente por el responsable</p>
+            </div>
+
+            <!-- Botón de Acción -->
+            <button type="button" onclick="generatePDF()" class="w-full bg-blue-900 text-white font-bold py-4 rounded hover:bg-black transition tracking-[0.2em] uppercase shadow-lg">Finalizar e Imprimir Reporte DEA</button>
+        </form>
+    </div>
+
+    <script>
+        // Actualiza la firma manuscrita al cambiar de inspector
+        function updateSignatureDisplay() {
+            document.getElementById('signature-display').innerText = document.getElementById('inspector').value;
+        }
+
+        // Generación del archivo PDF oficial
+        async function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4'); // Formato vertical
+
+            const inspector = document.getElementById('inspector').value;
+            const fecha = document.getElementById('fecha').value;
+            const instalacion = document.getElementById('instalacion').value;
+
+            // Inserción del logo de Access
+            const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF48GAfBiNyZh2fPJF-l8q0Dk1Dqn5tQ2r4g&s";
+            try {
+                doc.addImage(logoUrl, 'JPEG', 165, 12, 30, 15);
+            } catch (e) {
+                console.error("No se pudo cargar el logo en el PDF");
+            }
+
+            // Encabezado y Título
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(13);
+            doc.text("INSPECCIÓN MENSUAL DE DESFIBRILADOR (DEA)", 15, 18);
+            doc.setFontSize(10);
+            doc.setTextColor(30, 58, 138);
+            doc.text("SISTEMA DE SEGURIDAD OPERACIONAL - ACCESS", 15, 24);
+
+            doc.setDrawColor(0, 0, 0);
+            doc.line(15, 28, 195, 28);
+
+            // Metadatos
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(9);
+            doc.text(`Responsable: ${inspector}`, 15, 35);
+            doc.text(`Área / Ubicación: ${instalacion}`, 15, 41);
+            doc.text(`Fecha de la Prueba: ${fecha}`, 135, 35);
+
+            // Tabla de Inspección
+            doc.autoTable({
+                startY: 47,
+                theme: 'grid',
+                head: [['N°', 'DESCRIPCIÓN DE LA TAREA', 'ESTADO', 'OBSERVACIONES']],
+                body: [
+                    [{content: 'PUNTOS DE VERIFICACIÓN DE EQUIPAMIENTO DEA', colspan: 4, styles: {fillColor: [220, 225, 230], fontStyle: 'bold', halign: 'left'}}],
+                    [
+                        '1',
+                        'Confirme que el indicador de disponibilidad muestre el estado operativo.',
+                        document.getElementById('item1_estado').value,
+                        document.getElementById('item1_obs').value || 'Sin observaciones'
+                    ],
+                    [
+                        '2',
+                        'Compruebe que los electrodos y la batería estén presentes, correctamente conectados y no caducados.',
+                        document.getElementById('item2_estado').value,
+                        document.getElementById('item2_obs').value || 'Sin observaciones'
+                    ],
+                    [
+                        '3',
+                        'Verifique que la alarma del gabinete (si la hay) se active al abrirlo.',
+                        document.getElementById('item3_estado').value,
+                        document.getElementById('item3_obs').value || 'Sin observaciones'
+                    ],
+                    [
+                        '4',
+                        'Asegúrese de que el DEA esté bien montado y claramente etiquetado.',
+                        document.getElementById('item4_estado').value,
+                        document.getElementById('item4_obs').value || 'Sin observaciones'
+                    ]
+                ],
+                headStyles: { fillColor: [30, 58, 138], textColor: 255, halign: 'center' },
+                styles: { fontSize: 8.5, cellPadding: 3, halign: 'left' },
+                columnStyles: {
+                    0: { halign: 'center', width: 12 },
+                    1: { width: 90 },
+                    2: { halign: 'center', fontStyle: 'bold', width: 25 },
+                    3: { width: 53 }
+                }
+            });
+
+            let finalY = doc.lastAutoTable.finalY + 8;
+
+            // Bloque de Notas explicativas en el PDF
+            doc.setFontSize(7.5);
+            doc.setFont("helvetica", "italic");
+            doc.setTextColor(80, 80, 80);
+            doc.text("• Documente la inspección en una etiqueta de inspección colocada en cada gabinete/estuche del DEA.", 15, finalY);
+            doc.text("• Registre las fechas de caducidad de los electrodos y las baterías.", 15, finalY + 4);
+            doc.text("• Nota: Tomar fotos a cada etiqueta de inspección como evidencia para subir a la plataforma Protectadvisr.", 15, finalY + 8);
+
+            // Firma Electrónica
+            finalY += 22;
+            doc.setDrawColor(30, 58, 138);
+            doc.line(15, finalY + 8, 80, finalY + 8);
+
+            doc.setFont("times", "italic");
+            doc.setFontSize(15);
+            doc.setTextColor(30, 58, 138);
+            doc.text(inspector, 15, finalY + 6);
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(8);
+            doc.setTextColor(100);
+            doc.text("Firmado electrónicamente por el responsable", 15, finalY + 12);
+
+            // Descargar archivo
+            doc.save(`INSPECCION_DEA_ACCESS_${fecha}.pdf`);
+        }
+    </script>
+</body>
+</html>
