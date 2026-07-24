@@ -33,7 +33,11 @@
                     <label class="text-xs font-bold uppercase text-gray-500">Inspección realizada por / Responsable:</label>
                     <select id="inspector" onchange="updateSignatureDisplay()" class="border-b-2 border-blue-900 p-1 bg-transparent font-bold text-blue-900 focus:outline-none">
                         <option value="Camila Carvajal" selected>Camila Carvajal</option>
-                </select>
+                        <option value="Mauricio Santibañez">Mauricio Santibañez</option>
+                        <option value="Karen Cañete">Karen Cañete</option>
+                        <option value="Vinicio Lopez">Vinicio López</option>
+                        <option value="Alejandro Garay">Alejandro Garay</option>
+                    </select>
                 </div>
                 <div class="flex flex-col">
                     <label class="text-xs font-bold uppercase text-gray-500">Fecha de inspección:</label>
@@ -66,9 +70,9 @@
                             <td class="border border-black p-2 text-center font-bold">1</td>
                             <td class="border border-black p-2 font-semibold">Confirme que el indicador de disponibilidad muestre el estado operativo.</td>
                             <td class="border border-black p-1 text-center">
-                                <select id="item1_estado" class="w-full bg-white text-center font-bold text-lg text-green-600 cursor-pointer focus:outline-none" onchange="colorStatus(this)">
-                                    <option value="✔" class="text-green-600 font-bold" selected>✔</option>
-                                    <option value="✖" class="text-red-600 font-bold">✖</option>
+                                <select id="item1_estado" class="w-full bg-white text-center font-bold text-xl text-blue-900 cursor-pointer focus:outline-none" onchange="colorStatus(this)">
+                                    <option value="✓" class="text-blue-900 font-bold" selected>✓</option>
+                                    <option value="✕" class="text-black font-bold">✕</option>
                                     <option value="N/A" class="text-gray-600 font-bold">N/A</option>
                                 </select>
                             </td>
@@ -80,9 +84,9 @@
                             <td class="border border-black p-2 text-center font-bold">2</td>
                             <td class="border border-black p-2 font-semibold">Compruebe que los electrodos y la batería estén presentes, correctamente conectados y no caducados.</td>
                             <td class="border border-black p-1 text-center">
-                                <select id="item2_estado" class="w-full bg-white text-center font-bold text-lg text-green-600 cursor-pointer focus:outline-none" onchange="colorStatus(this)">
-                                    <option value="✔" class="text-green-600 font-bold" selected>✔ OK</option>
-                                    <option value="✖" class="text-red-600 font-bold">✖ NO OK</option>
+                                <select id="item2_estado" class="w-full bg-white text-center font-bold text-xl text-blue-900 cursor-pointer focus:outline-none" onchange="colorStatus(this)">
+                                    <option value="✓" class="text-blue-900 font-bold" selected>✓</option>
+                                    <option value="✕" class="text-black font-bold">✕</option>
                                     <option value="N/A" class="text-gray-600 font-bold">N/A</option>
                                 </select>
                             </td>
@@ -94,9 +98,9 @@
                             <td class="border border-black p-2 text-center font-bold">3</td>
                             <td class="border border-black p-2 font-semibold">Verifique que la alarma del gabinete (si la hay) se active al abrirlo.</td>
                             <td class="border border-black p-1 text-center">
-                                <select id="item3_estado" class="w-full bg-white text-center font-bold text-lg text-green-600 cursor-pointer focus:outline-none" onchange="colorStatus(this)">
-                                    <option value="✔" class="text-green-600 font-bold" selected>✔</option>
-                                    <option value="✖" class="text-red-600 font-bold">✖</option>
+                                <select id="item3_estado" class="w-full bg-white text-center font-bold text-xl text-blue-900 cursor-pointer focus:outline-none" onchange="colorStatus(this)">
+                                    <option value="✓" class="text-blue-900 font-bold" selected>✓</option>
+                                    <option value="✕" class="text-black font-bold">✕</option>
                                     <option value="N/A" class="text-gray-600 font-bold">N/A</option>
                                 </select>
                             </td>
@@ -108,9 +112,9 @@
                             <td class="border border-black p-2 text-center font-bold">4</td>
                             <td class="border border-black p-2 font-semibold">Asegúrese de que el DEA esté bien montado y claramente etiquetado.</td>
                             <td class="border border-black p-1 text-center">
-                                <select id="item4_estado" class="w-full bg-white text-center font-bold text-lg text-green-600 cursor-pointer focus:outline-none" onchange="colorStatus(this)">
-                                    <option value="✔" class="text-green-600 font-bold" selected>✔</option>
-                                    <option value="✖" class="text-red-600 font-bold">✖</option>
+                                <select id="item4_estado" class="w-full bg-white text-center font-bold text-xl text-blue-900 cursor-pointer focus:outline-none" onchange="colorStatus(this)">
+                                    <option value="✓" class="text-blue-900 font-bold" selected>✓</option>
+                                    <option value="✕" class="text-black font-bold">✕</option>
                                     <option value="N/A" class="text-gray-600 font-bold">N/A</option>
                                 </select>
                             </td>
@@ -141,14 +145,14 @@
     </div>
 
     <script>
-        // Cambiar el color del texto del estado según la opción elegida
+        // Cambiar el color del texto del estado según la opción elegida (Azul / Negro)
         function colorStatus(select) {
-            if (select.value === '✔') {
-                select.className = 'w-full bg-white text-center font-bold text-lg text-green-600 cursor-pointer focus:outline-none';
-            } else if (select.value === '✖') {
-                select.className = 'w-full bg-white text-center font-bold text-lg text-red-600 cursor-pointer focus:outline-none';
+            if (select.value === '✓') {
+                select.className = 'w-full bg-white text-center font-bold text-xl text-blue-900 cursor-pointer focus:outline-none';
+            } else if (select.value === '✕') {
+                select.className = 'w-full bg-white text-center font-bold text-xl text-black cursor-pointer focus:outline-none';
             } else {
-                select.className = 'w-full bg-white text-center font-bold text-lg text-gray-600 cursor-pointer focus:outline-none';
+                select.className = 'w-full bg-white text-center font-bold text-xl text-gray-600 cursor-pointer focus:outline-none';
             }
         }
 
@@ -230,7 +234,7 @@
                 columnStyles: {
                     0: { halign: 'center', width: 12 },
                     1: { width: 90 },
-                    2: { halign: 'center', fontStyle: 'bold', fontSize: 11, width: 25 },
+                    2: { halign: 'center', fontStyle: 'bold', fontSize: 12, width: 25 },
                     3: { width: 53 }
                 }
             });
